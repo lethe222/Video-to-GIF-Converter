@@ -2,6 +2,7 @@ packages:
   - '.'
 supportedArchitectures:
   os:
+    - darwin
     - linux
   cpu:
     - x64
