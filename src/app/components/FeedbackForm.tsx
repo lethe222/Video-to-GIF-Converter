@@ -20,7 +20,7 @@ function FeedbackForm({ isOpen, onClose }: FeedbackFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.content.trim()) {
       setMessage('请输入反馈内容');
       setMessageType('error');
@@ -37,9 +37,10 @@ function FeedbackForm({ isOpen, onClose }: FeedbackFormProps) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          content: formData.content,
-          contact: formData.contact,
-          rating: formData.rating
+          name: 'Anonymous',
+          email: formData.contact || '',
+          message: formData.content,
+          rating: formData.rating || null,
         }),
       });
 
@@ -68,12 +69,12 @@ function FeedbackForm({ isOpen, onClose }: FeedbackFormProps) {
   if (!isOpen) return null;
 
   return (
-    <div 
+    <div
       className="fixed inset-0 z-[60] flex items-center justify-center p-4"
       style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
       onClick={onClose}
     >
-      <div 
+      <div
         className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
@@ -126,7 +127,7 @@ function FeedbackForm({ isOpen, onClose }: FeedbackFormProps) {
           {/* Rating */}
           <div>
             <label htmlFor="rating-select" className="block text-sm font-semibold text-foreground mb-2">评分</label>
-            <select 
+            <select
               id="rating-select"
               value={formData.rating}
               onChange={(e) => setFormData({...formData, rating: parseInt(e.target.value)})}
@@ -164,10 +165,10 @@ function FeedbackForm({ isOpen, onClose }: FeedbackFormProps) {
 
           {/* Message */}
           {message && (
-            <div 
+            <div
               className={`text-sm text-center py-2 px-4 rounded-lg ${
-                messageType === 'success' 
-                  ? 'bg-green-50 text-green-700 border border-green-200' 
+                messageType === 'success'
+                  ? 'bg-green-50 text-green-700 border border-green-200'
                   : 'bg-red-50 text-red-700 border border-red-200'
               }`}
             >
